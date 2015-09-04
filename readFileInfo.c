@@ -1,5 +1,6 @@
-#include <sdtio.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include "fileInfo.h"
 
 FileInfo fileContent;
 
@@ -9,23 +10,23 @@ int main()
 	int i;
 	FILE *fd;
 	char *line = NULL;
-	ssize_t len = 0;
+	size_t len = 0;
+	ssize_t read;
 	FileInfo temp = fileContent;
 
-	if((fd = fopen("text.txt", 'r')) == NULL)
+	if((fd = fopen("text.txt", "r")) == NULL)
 	{
 		return -1;
 	}
 
 	while((read = getline(&line, &len, fd)) != -1)
 	{
-		//line is the content
 		if(temp == NULL)
 		{
 			fileContent = (FileInfo)malloc(sizeof(FileInfo));
 			temp = fileContent;
 			temp->content = line;
-			temp->pNext = NULL:
+			temp->pNext = NULL;
 		}
 		else
 		{
@@ -36,6 +37,10 @@ int main()
 			temp = p;
 		}
 	}
+
+	if(line)
+		free(line);
+
 
 	return 0;
 }

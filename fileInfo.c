@@ -1,14 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct List
-{
-	char content[50];
-	struct List *pNext;
-}List;
-
-typedef struct List *FileInfo;
-
+#include "fileInfo.h"
 
 int getListLength(FileInfo p)
 {
