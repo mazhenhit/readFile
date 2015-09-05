@@ -3,7 +3,8 @@
 
 typedef struct List
 {
-	char *content;
+	char content[100];
+	int num;
 	struct List *pNext;
 }List;
 
