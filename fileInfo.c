@@ -1,16 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "fileInfo.h"
+#include "list.h"
 
-int getListLength(FileInfo p)
+void addToTail(ListNode **pHead, char *str)
 {
-	int i= 0;
-
-	while(p != NULL)
+	ListNode *pNew = (ListNode *)malloc(sizeof(ListNode)); 
+	snprintf(pNew->content, 100, "%s", str);
+	pNew->pNext = NULL;
+	
+	if(*pHead == NULL)
 	{
-		i++;
-		p = p->pNext;
+		*pHead = pNew;
 	}
-
-	return i;
+	else
+	{
+		ListNode *pNode = *pHead;
+		
+		while(pNode->pNext != NULL)
+		{
+			pNode = pNode->pNext;
+		}
+		
+		pNode->pNext = pNew;
+	}
 }
