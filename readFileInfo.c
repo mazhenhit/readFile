@@ -1,19 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "fileInfo.h"
 
-FileInfo fileContent = NULL;
+struct ListNode
+{
+	char content[100];
+	ListNode *pNext;
+};
+
+void addToTail(ListNode **pHead, char *str);
 
 int main()
 {
-	int a;
-	int i = 0;
 	FILE *fd;
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t read;
-	FileInfo temp = fileContent;
+	Listnode *fileContent = NULL;
+	Listnode *pTemp;
 
 	if((fd = fopen("test.txt", "r")) == NULL)
 	{
@@ -22,46 +25,45 @@ int main()
 
 	while((read = getline(&line, &len, fd)) != -1)
 	{
-		i++;
 		printf("The read is %zu\n", read);
 		printf("%s\n", line);
-		if(temp == NULL)
-		{
-			printf("enter temp == NULL, i is %d\n", i);
-			fileContent = (FileInfo)malloc(sizeof(FileInfo));
-			temp = fileContent;
-			snprintf(temp->content, 100, "%s", line);
-			temp->num = i;
-			temp->pNext = NULL;
-			printf("the fileContent is %s\n", fileContent->content);
-			printf("the length is %d\n", getListLength(fileContent));
-		}
-		else
-		{
-			printf("entern temp != NULL, i is %d\n", i);
-			FileInfo p = (FileInfo)malloc(sizeof(FileInfo));
-			snprintf(p->content, 100, "%s", line);
-			p->num = i;
-			p->pNext = NULL;
-			temp->pNext = p;
-			temp = p;
-			printf("the temp now is %s\n", temp->content);
-			printf("the length is %d\n", getListLength(fileContent));
-		}
-
+		addToTail(&fileContent, line);
 	}
 
 	if(line)
 		free(line);
 
-	temp = fileContent;
-	while(temp != NULL)
+	pTemp = fileContent;
+	while(pTemp != NULL)
 	{
-		printf("the temp now is %d\n", temp->num);
-		temp = temp->pNext;
+		printf("the pTemp now is %d\n", pTemp->content);
+		pTemp = pTemp->pNext;
 	}
 
 	return 0;
+}
+
+void addToTail(ListNode **pHead, char *str)
+{
+	ListNode *pNew =  new ListNode();
+	pNew->content = str;
+	pNew->pNext = NULL;
+	
+	if(*head == NULL)
+	{
+		*pHead = pNew;
+	}
+	else
+	{
+		ListNode *pNode = *pHead;
+		
+		while(pNode->pNext != NULL)
+		{
+			pNode = pNode->pNext;
+		}
+		
+		pNode->pNext = pNew;
+	}
 }
 
 
