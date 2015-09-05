@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "fileInfo.h"
 
 FileInfo fileContent = NULL;
@@ -24,14 +25,12 @@ int main()
 		i++;
 		printf("The read is %zu\n", read);
 		printf("%s\n", line);
-		printf("%d\n", sizeof(line));
 		if(temp == NULL)
 		{
 			printf("enter temp == NULL, i is %d\n", i);
 			fileContent = (FileInfo)malloc(sizeof(FileInfo));
 			temp = fileContent;
-			//snprintf(temp->content, 100, "%s", line);
-			strncpy(temp->content, line, 99);
+			snprintf(temp->content, 100, "%s", line);
 			temp->num = i;
 			temp->pNext = NULL;
 			printf("the fileContent is %s\n", fileContent->content);
@@ -41,8 +40,7 @@ int main()
 		{
 			printf("entern temp != NULL, i is %d\n", i);
 			FileInfo p = (FileInfo)malloc(sizeof(FileInfo));
-			//snprintf(p->content, 100, "%s", line);
-			strncpy(p->content, line, 99);
+			snprintf(p->content, 100, "%s", line);
 			p->num = i;
 			p->pNext = NULL;
 			temp->pNext = p;
