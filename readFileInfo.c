@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct ListNode
+typedef struct ListNode
 {
 	char content[100];
-	ListNode *pNext;
-};
+	struct ListNode *pNext;
+}ListNode;
 
-void addToTail(ListNode **pHead, char *str);
+ListNode *addToTail(ListNode *pHead, char *str);
 
 int main()
 {
@@ -15,8 +15,8 @@ int main()
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t read;
-	Listnode *fileContent = NULL;
-	Listnode *pTemp;
+	ListNode *fileContent = NULL;
+	ListNode *pTemp;
 
 	if((fd = fopen("test.txt", "r")) == NULL)
 	{
@@ -27,7 +27,7 @@ int main()
 	{
 		printf("The read is %zu\n", read);
 		printf("%s\n", line);
-		addToTail(&fileContent, line);
+		fileContent = addToTail(fileContent, line);
 	}
 
 	if(line)
@@ -36,26 +36,26 @@ int main()
 	pTemp = fileContent;
 	while(pTemp != NULL)
 	{
-		printf("the pTemp now is %d\n", pTemp->content);
+		printf("the pTemp now is %s\n", pTemp->content);
 		pTemp = pTemp->pNext;
 	}
 
 	return 0;
 }
 
-void addToTail(ListNode **pHead, char *str)
+ListNode *addToTail(ListNode *pHead, char *str)
 {
-	ListNode *pNew =  new ListNode();
-	pNew->content = str;
+	ListNode *pNew = (ListNode *)malloc(sizeof(ListNode)); 
+	snprintf(pNew->content, 100, "%s", str);
 	pNew->pNext = NULL;
 	
-	if(*head == NULL)
+	if(pHead == NULL)
 	{
-		*pHead = pNew;
+		pHead = pNew;
 	}
 	else
 	{
-		ListNode *pNode = *pHead;
+		ListNode *pNode = pHead;
 		
 		while(pNode->pNext != NULL)
 		{
@@ -64,6 +64,7 @@ void addToTail(ListNode **pHead, char *str)
 		
 		pNode->pNext = pNew;
 	}
+	return pHead;
 }
 
 
